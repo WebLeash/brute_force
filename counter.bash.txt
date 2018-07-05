@@ -1,0 +1,25 @@
+#!/bin/bash
+>/tmp/counter.out
+set -x
+
+exec 2>>/tmp/counter.out
+#take snap shot of access.log
+dt=`date`
+echo "$dt" >>/tmp/had_to_block.txt
+cp /var/log/apache2/access.log /tmp/access.log.screen
+sudo iptables -L INPUT -v -n |grep DROP >/tmp/blocked.ips
+
+for f in `cat /tmp/access.log.screen|cut -d'-' -f1 |grep -v "::" |sort -n |uniq`
+do
+        num=`grep -c $f /tmp/access.log.screen`
+        if [[ "$num" -gt 200 ]] ; then
+                grep $f /tmp/blocked.ips
+                if [[ $? -ne 0 ]] ; then
+                        echo "BLOCKED >$f<!!!" >>/tmp/had_to_block.txt
+                        sudo iptables -A INPUT -s $f -j DROP
+                else
+                        echo "allready blocked $f" >>/tmp/had_to_block.txt
+                fi
+        fi
+
+done
