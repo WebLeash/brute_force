@@ -20,14 +20,15 @@ if [ -f temp.csv ]; then
 fi
 ssconvert $1 temp.csv
 
-found=0;
+head=$(head -1 temp.csv)
+echo $head > $2
 cat temp.csv |while read line
 do
+	country=$(echo $line |cut -d',' -f10)
+	echo "$country" |grep 'United Kingdom'
 
-	echo "$line" |grep  'United Kingdom'
 	if [ $? -eq 0 ]; then
-		cp temp.csv $2
-		exit 0;
+		echo $line >>$2
 	fi
 done
 if [ -f temp.csv ]; then
