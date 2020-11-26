@@ -8,7 +8,7 @@ pipelines:
     materials:
       pipeline2:
         ignore_for_scheduling: false
-        pipeline: pipeline2
+        pipeline: pipeline21
         stage: stage1
     stages:
     - stage1:

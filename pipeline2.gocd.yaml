@@ -8,7 +8,7 @@ pipelines:
     materials:
       brute-force-feature-branch:
         ignore_for_scheduling: false
-        pipeline: brute-force-feature-branch
+        pipeline: brute-force-feature-branch1
         stage: stage1
     stages:
     - stage1:
