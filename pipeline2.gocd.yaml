@@ -1,0 +1,29 @@
+format_version: 10
+pipelines:
+  pipeline2:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      brute-force-feature-branch:
+        ignore_for_scheduling: false
+        pipeline: brute-force-feature-branch
+        stage: stage1
+    stages:
+    - stage1:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          job1:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - stage 1
+                command: echo
+                run_if: passed

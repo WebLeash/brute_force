@@ -1,0 +1,32 @@
+format_version: 10
+pipelines:
+  brute-force-feature-branch:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-6277adb:
+        git: https://github.com/WebLeash/brute_force.git
+        username: WebLeash
+        shallow_clone: false
+        auto_update: true
+        branch: feature/branch1
+        encrypted_password: AES:9KAdAZxobHNuD7z4GPAlZw==:Jpku+2v7BqZPTmv5fTiJJg==
+    stages:
+    - stage1:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          job1:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - test
+                command: echo
+                run_if: passed
